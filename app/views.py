@@ -3,10 +3,9 @@ from rest_framework import generics
 
 from app.models import URLMapper
 from app.serializers import URLMapperSerializer
-from log.mix import RequestLogViewMixin
 
 
-class FetchURL(generics.ListCreateAPIView, RequestLogViewMixin):
+class FetchURL(generics.ListCreateAPIView):
     queryset = URLMapper.objects.all()
     serializer_class = URLMapperSerializer
 
@@ -19,7 +18,7 @@ class FetchURL(generics.ListCreateAPIView, RequestLogViewMixin):
         return URLMapper.objects.filter(url__contains=search_value)
 
 
-class FetchShortURL(generics.RetrieveAPIView, RequestLogViewMixin):
+class FetchShortURL(generics.RetrieveAPIView):
     queryset = URLMapper.objects.all()
     serializer_class = URLMapperSerializer
 
