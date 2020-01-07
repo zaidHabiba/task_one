@@ -1,4 +1,6 @@
 import logging.config
+import socket
+import time
 
 
 class LoggingMiddleware:
@@ -8,8 +10,19 @@ class LoggingMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
-        try:
-            logging.debug({"response_data": response.data, "status_code": response.status_code})
-        except Exception:
-            logging.debug({"status_code": response.status_code})
+        log_data = {
+            'user': request.user.pk,
+
+            'remote_address': request.META['REMOTE_ADDR'],
+            'server_hostname': socket.gethostname(),
+
+            'request_method': request.method,
+            'request_path': request.get_full_path(),
+            'request_body': request.body,
+
+            'response_status': response.status_code,
+
+        }
+        logging.debug(log_data)
+
         return response
