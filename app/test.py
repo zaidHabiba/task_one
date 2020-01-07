@@ -39,4 +39,3 @@ class TestURLMapper(TestCase):
         response = self.client.get('/urls/?from=2020-01-07T10:05:00&to=2020-01-08')
         objects = URLMapper.objects.filter(create__lte="2020-01-08", create__gte="2020-01-07")
         self.assertEqual(len(response.data), len(objects))
-
